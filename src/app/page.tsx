@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Navbar, TabType } from '@/components/Navbar';
 import { DashboardView } from '@/components/DashboardView';
 import { ObligationsView } from '@/components/ObligationsView';
@@ -17,7 +17,7 @@ import { Obligation, DashboardSummary, RiskAnalysis } from '@/types';
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState<TabType>('dashboard');
-  const [obligations, setObligations] = useState<Obligation[]>(SEEDED_OBLIGATIONS);
+  const [obligations] = useState<Obligation[]>(SEEDED_OBLIGATIONS);
   const [selectedObligationId, setSelectedObligationId] = useState<string | null>(null);
   const [graphFocusNodeId, setGraphFocusNodeId] = useState<string | null>(null);
   const [isHeroDemoActive, setIsHeroDemoActive] = useState<boolean>(false);
@@ -37,10 +37,6 @@ export default function Home() {
     REFERENCE_DATE
   );
 
-  const heroRec = obligations.find((o) => o.id === 'nexus-rec-01');
-  const heroDependents = obligations.filter((o) => heroRec?.dependentObligations.includes(o.id));
-  const amountAtRisk = heroDependents.reduce((acc, curr) => acc + curr.amount, 0);
-
   const dashboardData: DashboardSummary = {
     currentCash: BASE_STARTING_CASH,
     minimumBuffer: MINIMUM_LIQUIDITY_BUFFER,
@@ -57,7 +53,6 @@ export default function Home() {
     cashFlowTimeline: cashSummary.timeline,
   };
 
-  // Selected obligation for drawer
   const selectedObligation = selectedObligationId
     ? obligations.find((o) => o.id === selectedObligationId) || null
     : null;
@@ -66,7 +61,6 @@ export default function Home() {
     ? RiskEngine.evaluateObligationRisk(selectedObligation, obligations, cashSummary, REFERENCE_DATE)
     : null;
 
-  // Handlers
   const handleSelectObligation = (id: string) => {
     setSelectedObligationId(id);
   };
@@ -93,8 +87,8 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-[#090d16] text-slate-100 flex flex-col selection:bg-indigo-500 selection:text-white">
-      {/* Top Navigation */}
+    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col selection:bg-indigo-500 selection:text-white">
+      {/* Top Navigation with Menu Button */}
       <Navbar
         activeTab={activeTab}
         onSelectTab={(tab) => {

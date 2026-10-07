@@ -3,15 +3,12 @@
 import React, { useState, useMemo } from 'react';
 import {
   Search,
-  Filter,
   ArrowUpDown,
   GitFork,
   ArrowUpRight,
   ArrowDownLeft,
   Calendar,
-  AlertTriangle,
   Layers,
-  Sparkles,
   SlidersHorizontal,
 } from 'lucide-react';
 import { Obligation } from '@/types';
@@ -50,7 +47,6 @@ export const ObligationsView: React.FC<ObligationsViewProps> = ({
 
   const filteredObligations = useMemo(() => {
     return obligations.filter((ob) => {
-      // Category filter
       if (activeFilter === 'RECEIVABLE' && ob.type !== 'RECEIVABLE') return false;
       if (activeFilter === 'PAYABLE' && ob.type !== 'PAYABLE' && ob.type !== 'SUPPLIER_PAYMENT') return false;
       if (activeFilter === 'PAYROLL' && ob.type !== 'PAYROLL') return false;
@@ -59,7 +55,6 @@ export const ObligationsView: React.FC<ObligationsViewProps> = ({
       if (activeFilter === 'AT_RISK' && ob.riskLevel !== 'HIGH' && ob.riskLevel !== 'CRITICAL' && ob.riskLevel !== 'MEDIUM') return false;
       if (activeFilter === 'OVERDUE' && ob.status !== 'OVERDUE') return false;
 
-      // Text query
       if (searchQuery.trim()) {
         const q = searchQuery.toLowerCase();
         const match =
@@ -101,13 +96,13 @@ export const ObligationsView: React.FC<ObligationsViewProps> = ({
   return (
     <div className="space-y-5 animate-fadeIn pb-12">
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-slate-800/60 pb-4">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-slate-200 pb-4">
         <div>
-          <h1 className="text-xl font-bold tracking-tight text-white flex items-center space-x-2">
-            <Layers className="w-5 h-5 text-indigo-400" />
+          <h1 className="text-xl font-bold tracking-tight text-slate-900 flex items-center space-x-2">
+            <Layers className="w-5 h-5 text-indigo-600" />
             <span>Obligations Ledger</span>
           </h1>
-          <p className="text-xs text-slate-400 mt-0.5">
+          <p className="text-xs text-slate-600 mt-0.5">
             Full directory of scheduled receivables, supplier disbursements, payroll, taxes, and loan EMIs with causal dependencies.
           </p>
         </div>
@@ -120,7 +115,7 @@ export const ObligationsView: React.FC<ObligationsViewProps> = ({
             placeholder="Search counterparty, PO, invoice..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-9 pr-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition-colors"
+            className="w-full pl-9 pr-3 py-1.5 rounded-xl bg-white border border-slate-200 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-indigo-500 shadow-sm transition-colors"
           />
         </div>
       </div>
@@ -133,16 +128,16 @@ export const ObligationsView: React.FC<ObligationsViewProps> = ({
             <button
               key={tab.id}
               onClick={() => setActiveFilter(tab.id)}
-              className={`flex items-center space-x-2 px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-all ${
+              className={`flex items-center space-x-2 px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
                 isActive
-                  ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/20'
-                  : 'bg-slate-900/80 hover:bg-slate-800 text-slate-300 border border-slate-800'
+                  ? 'bg-indigo-600 text-white shadow-sm'
+                  : 'bg-white hover:bg-slate-50 text-slate-700 border border-slate-200'
               }`}
             >
               <span>{tab.label}</span>
               <span
-                className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${
-                  isActive ? 'bg-indigo-700 text-indigo-100' : 'bg-slate-800 text-slate-400'
+                className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono font-bold ${
+                  isActive ? 'bg-indigo-700 text-white' : 'bg-slate-100 text-slate-600'
                 }`}
               >
                 {tab.count}
@@ -153,59 +148,59 @@ export const ObligationsView: React.FC<ObligationsViewProps> = ({
       </div>
 
       {/* Obligations Table */}
-      <div className="fintech-card rounded-xl overflow-hidden border border-slate-800 shadow-xl">
+      <div className="fintech-card rounded-2xl overflow-hidden border-slate-200 shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs border-collapse">
             <thead>
-              <tr className="bg-slate-900/90 border-b border-slate-800 text-slate-400 font-semibold uppercase tracking-wider text-[11px]">
+              <tr className="bg-slate-50 border-b border-slate-200 text-slate-500 font-bold uppercase tracking-wider text-[11px]">
                 <th className="py-3 px-4">Type / Flow</th>
                 <th
                   onClick={() => toggleSort('counterparty')}
-                  className="py-3 px-4 cursor-pointer hover:text-slate-200 transition-colors"
+                  className="py-3 px-4 cursor-pointer hover:text-slate-900 transition-colors"
                 >
                   <div className="flex items-center space-x-1">
                     <span>Counterparty</span>
-                    <ArrowUpDown className="w-3 h-3 text-slate-500" />
+                    <ArrowUpDown className="w-3 h-3 text-slate-400" />
                   </div>
                 </th>
                 <th
                   onClick={() => toggleSort('amount')}
-                  className="py-3 px-4 cursor-pointer hover:text-slate-200 transition-colors text-right"
+                  className="py-3 px-4 cursor-pointer hover:text-slate-900 transition-colors text-right"
                 >
                   <div className="flex items-center justify-end space-x-1">
                     <span>Amount</span>
-                    <ArrowUpDown className="w-3 h-3 text-slate-500" />
+                    <ArrowUpDown className="w-3 h-3 text-slate-400" />
                   </div>
                 </th>
                 <th
                   onClick={() => toggleSort('date')}
-                  className="py-3 px-4 cursor-pointer hover:text-slate-200 transition-colors"
+                  className="py-3 px-4 cursor-pointer hover:text-slate-900 transition-colors"
                 >
                   <div className="flex items-center space-x-1">
                     <span>Due Date</span>
-                    <ArrowUpDown className="w-3 h-3 text-slate-500" />
+                    <ArrowUpDown className="w-3 h-3 text-slate-400" />
                   </div>
                 </th>
                 <th className="py-3 px-4">Status</th>
                 <th
                   onClick={() => toggleSort('risk')}
-                  className="py-3 px-4 cursor-pointer hover:text-slate-200 transition-colors"
+                  className="py-3 px-4 cursor-pointer hover:text-slate-900 transition-colors"
                 >
                   <div className="flex items-center space-x-1">
                     <span>Risk Level</span>
-                    <ArrowUpDown className="w-3 h-3 text-slate-500" />
+                    <ArrowUpDown className="w-3 h-3 text-slate-400" />
                   </div>
                 </th>
                 <th className="py-3 px-4 text-center">Dependencies</th>
                 <th className="py-3 px-4 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800/60">
+            <tbody className="divide-y divide-slate-100 bg-white">
               {filteredObligations.length === 0 ? (
                 <tr>
-                  <td colSpan={8} className="py-12 text-center text-slate-400">
-                    <p className="text-sm font-medium">No obligations found matching the filter.</p>
-                    <p className="text-xs text-slate-500 mt-1">Try adjusting search parameters or active category.</p>
+                  <td colSpan={8} className="py-12 text-center text-slate-500">
+                    <p className="text-sm font-semibold">No obligations found matching the filter.</p>
+                    <p className="text-xs text-slate-400 mt-1">Try adjusting search parameters or active category.</p>
                   </td>
                 </tr>
               ) : (
@@ -217,8 +212,8 @@ export const ObligationsView: React.FC<ObligationsViewProps> = ({
                   return (
                     <tr
                       key={ob.id}
-                      className={`hover:bg-slate-800/50 transition-colors group cursor-pointer ${
-                        isHero ? 'bg-indigo-950/20' : ''
+                      className={`hover:bg-slate-50/80 transition-colors group cursor-pointer ${
+                        isHero ? 'bg-indigo-50/30' : ''
                       }`}
                       onClick={() => onSelectObligation(ob.id)}
                     >
@@ -226,10 +221,10 @@ export const ObligationsView: React.FC<ObligationsViewProps> = ({
                       <td className="py-3.5 px-4 whitespace-nowrap">
                         <div className="flex items-center space-x-2">
                           <div
-                            className={`p-1.5 rounded ${
+                            className={`p-1.5 rounded-lg ${
                               ob.category === 'INFLOW'
-                                ? 'bg-emerald-500/10 text-emerald-400'
-                                : 'bg-rose-500/10 text-rose-400'
+                                ? 'bg-emerald-50 text-emerald-600 border border-emerald-100'
+                                : 'bg-rose-50 text-rose-600 border border-rose-100'
                             }`}
                           >
                             {ob.category === 'INFLOW' ? (
@@ -239,10 +234,10 @@ export const ObligationsView: React.FC<ObligationsViewProps> = ({
                             )}
                           </div>
                           <div>
-                            <span className="font-semibold text-slate-200 block text-xs">
+                            <span className="font-bold text-slate-900 block text-xs">
                               {ob.type.replace('_', ' ')}
                             </span>
-                            <span className="text-[10px] text-slate-400 font-mono">
+                            <span className="text-[10px] text-slate-500 font-mono">
                               {ob.recurrence !== 'NONE' ? ob.recurrence : 'One-time'}
                             </span>
                           </div>
@@ -252,10 +247,10 @@ export const ObligationsView: React.FC<ObligationsViewProps> = ({
                       {/* Counterparty & Description */}
                       <td className="py-3.5 px-4">
                         <div className="max-w-xs">
-                          <span className="font-bold text-slate-100 group-hover:text-indigo-400 transition-colors block">
+                          <span className="font-bold text-slate-900 group-hover:text-indigo-600 transition-colors block">
                             {ob.counterparty}
                           </span>
-                          <span className="text-[11px] text-slate-400 truncate block">
+                          <span className="text-[11px] text-slate-500 truncate block">
                             {ob.description}
                           </span>
                         </div>
@@ -265,24 +260,24 @@ export const ObligationsView: React.FC<ObligationsViewProps> = ({
                       <td className="py-3.5 px-4 text-right whitespace-nowrap">
                         <span
                           className={`font-mono font-bold text-sm ${
-                            ob.category === 'INFLOW' ? 'text-emerald-400' : 'text-slate-100'
+                            ob.category === 'INFLOW' ? 'text-emerald-700' : 'text-slate-900'
                           }`}
                         >
                           {formatINR(ob.amount)}
                         </span>
-                        <span className="block text-[10px] text-slate-400 font-mono">
+                        <span className="block text-[10px] text-slate-500 font-mono">
                           Confidence: {ob.confidence}%
                         </span>
                       </td>
 
                       {/* Due Date */}
                       <td className="py-3.5 px-4 whitespace-nowrap">
-                        <div className="flex items-center space-x-1.5 font-mono text-slate-200">
+                        <div className="flex items-center space-x-1.5 font-mono text-slate-800 font-medium">
                           <Calendar className="w-3 h-3 text-slate-400" />
                           <span>{formatDate(ob.dueDate)}</span>
                         </div>
                         {ob.expectedDate && ob.expectedDate !== ob.dueDate && (
-                          <span className="text-[10px] text-amber-400 font-mono block">
+                          <span className="text-[10px] text-amber-800 font-mono font-bold block">
                             Exp: {formatDate(ob.expectedDate)}
                           </span>
                         )}
@@ -300,26 +295,26 @@ export const ObligationsView: React.FC<ObligationsViewProps> = ({
                       {/* Risk */}
                       <td className="py-3.5 px-4 whitespace-nowrap">
                         <span
-                          className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border ${riskBadge.bg} ${riskBadge.text} ${riskBadge.border} ${riskBadge.glow}`}
+                          className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border ${riskBadge.bg} ${riskBadge.text} ${riskBadge.border}`}
                         >
                           {ob.riskLevel}
                         </span>
                       </td>
 
-                      {/* Dependency Count */}
+                      {/* Dependencies */}
                       <td className="py-3.5 px-4 text-center whitespace-nowrap">
                         <div className="flex items-center justify-center space-x-2">
                           <span
-                            className="px-1.5 py-0.5 rounded bg-slate-800 border border-slate-700 text-slate-300 font-mono text-[10px]"
+                            className="px-1.5 py-0.5 rounded bg-slate-100 border border-slate-200 text-slate-700 font-mono text-[10px] font-semibold"
                             title={`${ob.dependencies.length} Upstream Sources`}
                           >
                             ↑{ob.dependencies.length}
                           </span>
                           <span
-                            className={`px-1.5 py-0.5 rounded font-mono text-[10px] ${
+                            className={`px-1.5 py-0.5 rounded font-mono text-[10px] font-bold ${
                               ob.dependentObligations.length > 0
-                                ? 'bg-indigo-950/60 border border-indigo-500/40 text-indigo-300 font-bold'
-                                : 'bg-slate-800 border border-slate-700 text-slate-400'
+                                ? 'bg-indigo-50 border border-indigo-200 text-indigo-700'
+                                : 'bg-slate-100 border border-slate-200 text-slate-500'
                             }`}
                             title={`${ob.dependentObligations.length} Downstream Dependents`}
                           >
@@ -333,7 +328,7 @@ export const ObligationsView: React.FC<ObligationsViewProps> = ({
                         <div className="flex items-center justify-end space-x-1.5" onClick={(e) => e.stopPropagation()}>
                           <button
                             onClick={() => onOpenInGraph(ob.id)}
-                            className="p-1.5 rounded-lg bg-slate-800 hover:bg-indigo-600/30 text-slate-300 hover:text-indigo-300 border border-slate-700 transition-colors"
+                            className="p-1.5 rounded-lg bg-slate-100 hover:bg-indigo-50 text-slate-600 hover:text-indigo-600 border border-slate-200 transition-colors"
                             title="Inspect in Dependency Graph"
                           >
                             <GitFork className="w-3.5 h-3.5" />
@@ -341,7 +336,7 @@ export const ObligationsView: React.FC<ObligationsViewProps> = ({
                           {ob.category === 'INFLOW' && (
                             <button
                               onClick={() => onSimulateObligationDelay(ob.id)}
-                              className="p-1.5 rounded-lg bg-slate-800 hover:bg-amber-600/30 text-slate-300 hover:text-amber-300 border border-slate-700 transition-colors"
+                              className="p-1.5 rounded-lg bg-slate-100 hover:bg-amber-50 text-slate-600 hover:text-amber-700 border border-slate-200 transition-colors"
                               title="Simulate Delay on this Inflow"
                             >
                               <SlidersHorizontal className="w-3.5 h-3.5" />

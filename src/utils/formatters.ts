@@ -85,32 +85,32 @@ export function getRiskBadgeClasses(risk: string): { bg: string; text: string; b
   switch (risk?.toUpperCase()) {
     case 'CRITICAL':
       return {
-        bg: 'bg-red-950/60',
-        text: 'text-red-400',
-        border: 'border-red-500/40',
-        glow: 'shadow-[0_0_12px_rgba(239,68,68,0.25)]',
+        bg: 'bg-red-50',
+        text: 'text-red-700',
+        border: 'border-red-200',
+        glow: 'shadow-sm shadow-red-100',
       };
     case 'HIGH':
       return {
-        bg: 'bg-rose-950/50',
-        text: 'text-rose-400',
-        border: 'border-rose-500/30',
-        glow: 'shadow-[0_0_10px_rgba(244,63,94,0.2)]',
+        bg: 'bg-rose-50',
+        text: 'text-rose-700',
+        border: 'border-rose-200',
+        glow: 'shadow-sm shadow-rose-100',
       };
     case 'MEDIUM':
       return {
-        bg: 'bg-amber-950/40',
-        text: 'text-amber-400',
-        border: 'border-amber-500/30',
-        glow: 'shadow-[0_0_10px_rgba(245,158,11,0.15)]',
+        bg: 'bg-amber-50',
+        text: 'text-amber-800',
+        border: 'border-amber-200',
+        glow: 'shadow-sm shadow-amber-100',
       };
     case 'LOW':
     default:
       return {
-        bg: 'bg-emerald-950/40',
-        text: 'text-emerald-400',
-        border: 'border-emerald-500/30',
-        glow: 'shadow-[0_0_10px_rgba(16,185,129,0.15)]',
+        bg: 'bg-emerald-50',
+        text: 'text-emerald-700',
+        border: 'border-emerald-200',
+        glow: 'shadow-sm shadow-emerald-100',
       };
   }
 }
@@ -118,19 +118,19 @@ export function getRiskBadgeClasses(risk: string): { bg: string; text: string; b
 export function getStatusBadgeClasses(status: string): { bg: string; text: string } {
   switch (status?.toUpperCase()) {
     case 'PAID':
-      return { bg: 'bg-emerald-500/10 border-emerald-500/30', text: 'text-emerald-400' };
+      return { bg: 'bg-emerald-50 border-emerald-200', text: 'text-emerald-700' };
     case 'EXPECTED':
     case 'UPCOMING':
-      return { bg: 'bg-blue-500/10 border-blue-500/30', text: 'text-blue-400' };
+      return { bg: 'bg-blue-50 border-blue-200', text: 'text-blue-700' };
     case 'DUE':
-      return { bg: 'bg-indigo-500/10 border-indigo-500/30', text: 'text-indigo-400' };
+      return { bg: 'bg-indigo-50 border-indigo-200', text: 'text-indigo-700' };
     case 'DELAYED':
-      return { bg: 'bg-amber-500/10 border-amber-500/30', text: 'text-amber-400' };
+      return { bg: 'bg-amber-50 border-amber-200', text: 'text-amber-800' };
     case 'AT_RISK':
-      return { bg: 'bg-rose-500/10 border-rose-500/30', text: 'text-rose-400' };
+      return { bg: 'bg-rose-50 border-rose-200', text: 'text-rose-700' };
     case 'OVERDUE':
-      return { bg: 'bg-red-500/10 border-red-500/30', text: 'text-red-400' };
+      return { bg: 'bg-red-50 border-red-200', text: 'text-red-700' };
     default:
-      return { bg: 'bg-slate-700/30 border-slate-600/30', text: 'text-slate-300' };
+      return { bg: 'bg-slate-100 border-slate-200', text: 'text-slate-700' };
   }
 }
