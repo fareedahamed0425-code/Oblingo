@@ -8,6 +8,7 @@ import { BASE_STARTING_CASH, MINIMUM_LIQUIDITY_BUFFER, REFERENCE_DATE } from '@/
 /**
  * AI Obligation Intelligence Assistant Engine
  * Answers natural language queries deterministically grounded in live obligation records and simulation engines.
+ * Strictly without emojis or template placeholders.
  */
 
 export class AIAssistantEngine {
@@ -39,12 +40,12 @@ export class AIAssistantEngine {
         referenceDate
       );
 
-      const responseText = `### 📊 Scenario Analysis: Customer A (Nexus Retail) 10-Day Delay
+      const responseText = `### Scenario Analysis: Customer A (Nexus Retail) 10-Day Delay
 
 **Deterministic Financial Impact:**
 - **Inflow Shift:** ₹12,00,000 receivable moves from **Sept 20** to **Sept 30, 2026**.
 - **Liquidity Impact:** Projected minimum cash drops from **${formatINR(sim.baselineMinCash)}** to **${formatINR(sim.scenarioMinCash)}** (Net reduction of **${formatINR(Math.abs(sim.difference))}**).
-- **Risk Shift:** Risk rating shifts from **${sim.baselineRiskLevel}** → **${sim.scenarioRiskLevel}**.
+- **Risk Shift:** Risk rating shifts from **${sim.baselineRiskLevel}** -> **${sim.scenarioRiskLevel}**.
 - **Buffer Breach:** Minimum liquidity buffer (₹5.0L) is breached with an estimated liquidity gap of **${formatINR(sim.scenarioLiquidityGap)}**.
 
 **Downstream Cascade & Affected Obligations:**
@@ -67,7 +68,7 @@ export class AIAssistantEngine {
             (o) => o.id === 'nexus-rec-01' || o.id === 'paramount-pay-01' || o.id === 'payroll-eng-01' || o.id === 'hdfc-emi-01'
           ),
           impactAmount: 1200000,
-          riskShift: 'MEDIUM → HIGH',
+          riskShift: 'MEDIUM -> HIGH',
           cascadeChain: [
             'Customer A Delay (₹12.0L)',
             'Expected Cash Inflow Delayed',
@@ -87,7 +88,7 @@ export class AIAssistantEngine {
       const netChange = summary.netCashChange;
       const minProjected = summary.minimumProjectedCash;
 
-      const responseText = `### 💰 30-Day Cash Requirement Breakdown (Sept 15 – Oct 15, 2026)
+      const responseText = `### 30-Day Cash Requirement Breakdown (Sept 15 - Oct 15, 2026)
 
 Based on active deterministic obligation schedules:
 
@@ -122,18 +123,18 @@ Your opening cash of ${formatINR(startingCash)} is sufficient only if scheduled 
     // 3. Query: "Which payments are most at risk?"
     if (lower.includes('most at risk') || lower.includes('which payments') || lower.includes('risky obligations') || lower.includes('at risk')) {
       const highRisk = obligations.filter((o) => o.riskLevel === 'HIGH' || o.riskLevel === 'MEDIUM');
-      const responseText = `### ⚠️ Highest Exposure Obligations & Bottlenecks
+      const responseText = `### Highest Exposure Obligations & Bottlenecks
 
-1. **Supplier B (Paramount Components) — ${formatINR(800000)} (Due Sept 22)**
+1. **Supplier B (Paramount Components) - ${formatINR(800000)} (Due Sept 22)**
    - **Risk Level:** MEDIUM / HIGH EXPOSURE
    - **Cause:** Depends heavily on Customer A receivable (₹12.0L due Sept 20). A 2-day delay creates an instant ₹8.0L liquidity demand against the opening cash buffer.
-2. **Core Product & Engineering Payroll — ${formatINR(600000)} (Due Sept 30)**
+2. **Core Product & Engineering Payroll - ${formatINR(600000)} (Due Sept 30)**
    - **Risk Level:** HIGH PRIORITY / CRITICAL
    - **Cause:** Clustered alongside multiple month-end disbursements; zero statutory slippage tolerance.
-3. **Customer A (Nexus Retail Tech) — ${formatINR(1200000)} Inflow (Due Sept 20)**
+3. **Customer A (Nexus Retail Tech) - ${formatINR(1200000)} Inflow (Due Sept 20)**
    - **Risk Level:** MEDIUM CONCENTRATION
    - **Cause:** Top single-counterparty exposure anchoring 4 downstream commitments.
-4. **HDFC Machinery Term Loan EMI — ${formatINR(250000)} (Due Oct 02)**
+4. **HDFC Machinery Term Loan EMI - ${formatINR(250000)} (Due Oct 02)**
    - **Risk Level:** MEDIUM
    - **Cause:** Auto-debit NACH mandate due shortly after month-end salary run.`;
 
@@ -150,7 +151,7 @@ Your opening cash of ${formatINR(startingCash)} is sufficient only if scheduled 
 
     // 4. Query: "Why is my liquidity risk high?" / "Explain risk"
     if (lower.includes('why is my liquidity') || lower.includes('why is risk') || lower.includes('explain risk') || lower.includes('why')) {
-      const responseText = `### 🔍 Liquidity Risk & Dependency Diagnostics
+      const responseText = `### Liquidity Risk & Dependency Diagnostics
 
 **Primary Risk Drivers Identified:**
 1. **Inflow Timing vs Outflow Asymmetry:**
@@ -181,7 +182,7 @@ Your opening cash of ${formatINR(startingCash)} is sufficient only if scheduled 
       lower.includes('dependency chain')
     ) {
       const heroDependents = obligations.filter((o) => heroRec?.dependentObligations.includes(o.id));
-      const responseText = `### 🔗 Critical Dependency Chain: Customer A (Nexus Retail Tech)
+      const responseText = `### Critical Dependency Chain: Customer A (Nexus Retail Tech)
 
 **Anchor Receivable:**
 - **Counterparty:** Nexus Retail Tech
@@ -189,10 +190,10 @@ Your opening cash of ${formatINR(startingCash)} is sufficient only if scheduled 
 - **Direct Downstream Dependents:** ${heroDependents.length} commitments totaling **${formatINR(heroDependents.reduce((a, b) => a + b.amount, 0))}**
 
 **Downstream Obligation Chain:**
-1. ➡️ **Supplier B (Paramount Components):** ₹8,00,000 (Due Sept 22) — *Direct component supply*
-2. ➡️ **Core Engineering Payroll:** ₹6,00,000 (Due Sept 30) — *Protected salary run*
-3. ➡️ **HDFC Term Loan EMI:** ₹2,50,000 (Due Oct 02) — *Banking auto-debit*
-4. ➡️ **GST Net Liability Filing:** ₹3,00,000 (Due Oct 10) — *Statutory compliance*
+1. -> **Supplier B (Paramount Components):** ₹8,00,000 (Due Sept 22) - Direct component supply
+2. -> **Core Engineering Payroll:** ₹6,00,000 (Due Sept 30) - Protected salary run
+3. -> **HDFC Term Loan EMI:** ₹2,50,000 (Due Oct 02) - Banking auto-debit
+4. -> **GST Net Liability Filing:** ₹3,00,000 (Due Oct 10) - Statutory compliance
 
 **Dependency Insight:**
 Customer A is your single most influential liquidity node. A delay here cascades directly through 4 vital operations within a 20-day window.`;
@@ -210,16 +211,16 @@ Customer A is your single most influential liquidity node. A delay here cascades
     }
 
     // Default Fallback
-    const responseText = `### 📋 Financial Obligation Intelligence Summary
+    const responseText = `### Financial Obligation Intelligence Summary
 
-I analyzed your active portfolio of **${obligations.length} obligations**:
+Analyzed portfolio of **${obligations.length} obligations**:
 - **Current Cash Balance:** ${formatINR(startingCash)}
 - **30-Day Expected Inflows:** ${formatINR(summary.totalExpectedInflows)}
 - **30-Day Committed Outflows:** ${formatINR(summary.totalExpectedOutflows)}
 - **Projected Ending Cash:** ${formatINR(summary.endingProjectedCash)}
 - **Minimum Buffer Margin:** ${formatINR(summary.minimumProjectedCash)} (Buffer: ${formatINR(minBuffer)})
 
-**Key Capabilities You Can Query:**
+**Available Analytical Inquiries:**
 - *"What happens if Customer A pays 10 days late?"*
 - *"How much cash do I need over the next 30 days?"*
 - *"Which payments are most at risk?"*
