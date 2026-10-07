@@ -119,7 +119,7 @@ export const ScenarioSimulatorView: React.FC<ScenarioSimulatorViewProps> = ({
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-slate-200 pb-4">
         <div>
           <h1 className="text-xl font-bold tracking-tight text-slate-900 flex items-center space-x-2">
-            <SlidersHorizontal className="w-5 h-5 text-indigo-600" />
+            <SlidersHorizontal className="w-5 h-5 text-teal-600" />
             <span>Scenario Simulator & What-If Engine</span>
           </h1>
           <p className="text-xs text-slate-600 mt-0.5">
@@ -131,9 +131,9 @@ export const ScenarioSimulatorView: React.FC<ScenarioSimulatorViewProps> = ({
         <div className="flex items-center space-x-2">
           <button
             onClick={handleApplyHeroPreset}
-            className="flex items-center space-x-1.5 px-3.5 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold shadow-sm transition-all hover:scale-[1.02]"
+            className="flex items-center space-x-1.5 px-3.5 py-1.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold shadow-sm transition-all hover:scale-[1.02]"
           >
-            <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+            <Sparkles className="w-3.5 h-3.5 text-white" />
             <span>Load Hero Preset (10-Day Customer A Delay)</span>
           </button>
           <button
@@ -152,10 +152,10 @@ export const ScenarioSimulatorView: React.FC<ScenarioSimulatorViewProps> = ({
         <div className="fintech-card p-5 rounded-2xl space-y-5 border-slate-200 shadow-sm bg-white">
           <div className="flex items-center justify-between border-b border-slate-200 pb-3">
             <h3 className="text-sm font-bold text-slate-900 flex items-center space-x-2">
-              <SlidersHorizontal className="w-4 h-4 text-indigo-600" />
+              <SlidersHorizontal className="w-4 h-4 text-teal-600" />
               <span>Simulation Controls</span>
             </h3>
-            <span className="text-[10px] uppercase font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-md border border-indigo-200">
+            <span className="text-[10px] uppercase font-bold text-teal-800 bg-teal-50 px-2 py-0.5 rounded-md border border-teal-200">
               Live Recomputation
             </span>
           </div>
@@ -177,7 +177,7 @@ export const ScenarioSimulatorView: React.FC<ScenarioSimulatorViewProps> = ({
               step="1"
               value={customerADelay}
               onChange={(e) => setCustomerADelay(Number(e.target.value))}
-              className="w-full accent-indigo-600 cursor-pointer h-2 bg-slate-200 rounded-lg"
+              className="w-full accent-teal-600 cursor-pointer h-2 bg-slate-200 rounded-lg"
             />
             <div className="flex justify-between text-[10px] text-slate-500 font-mono">
               <span>0 Days (Sept 20)</span>
@@ -203,7 +203,7 @@ export const ScenarioSimulatorView: React.FC<ScenarioSimulatorViewProps> = ({
               step="1"
               value={globalInflowDelay}
               onChange={(e) => setGlobalInflowDelay(Number(e.target.value))}
-              className="w-full accent-indigo-600 cursor-pointer h-2 bg-slate-200 rounded-lg"
+              className="w-full accent-teal-600 cursor-pointer h-2 bg-slate-200 rounded-lg"
             />
           </div>
 
@@ -234,7 +234,7 @@ export const ScenarioSimulatorView: React.FC<ScenarioSimulatorViewProps> = ({
               <label className="text-xs font-bold text-slate-700">
                 Capital Infusion / Credit Line:
               </label>
-              <span className="text-xs font-mono font-bold text-emerald-700">
+              <span className="text-xs font-mono font-bold text-teal-700">
                 +{formatINR(cashInfusionAmount, true)}
               </span>
             </div>
@@ -245,14 +245,14 @@ export const ScenarioSimulatorView: React.FC<ScenarioSimulatorViewProps> = ({
               step="100000"
               value={cashInfusionAmount}
               onChange={(e) => setCashInfusionAmount(Number(e.target.value))}
-              className="w-full accent-emerald-600 cursor-pointer h-2 bg-slate-200 rounded-lg"
+              className="w-full accent-teal-600 cursor-pointer h-2 bg-slate-200 rounded-lg"
             />
           </div>
 
           {/* Hero Story Info Box */}
-          <div className="p-4 rounded-2xl bg-indigo-50/60 border border-indigo-200 text-xs space-y-1.5">
-            <span className="font-bold text-indigo-900 flex items-center space-x-1.5">
-              <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
+          <div className="p-4 rounded-2xl bg-teal-50 border border-teal-200 text-xs space-y-1.5">
+            <span className="font-bold text-teal-900 flex items-center space-x-1.5">
+              <Sparkles className="w-3.5 h-3.5 text-teal-700" />
               <span>Core User Story Trace</span>
             </span>
             <p className="text-slate-700 leading-relaxed text-[11px]">
@@ -315,7 +315,7 @@ export const ScenarioSimulatorView: React.FC<ScenarioSimulatorViewProps> = ({
             <div className="fintech-card p-4 rounded-2xl">
               <span className="text-[11px] font-semibold text-slate-500">Days Until Pressure</span>
               <div className="mt-1">
-                <span className="text-xl font-bold font-mono text-indigo-700">
+                <span className="text-xl font-bold font-mono text-blue-700">
                   {scenarioResult.daysToPressure !== null ? `${scenarioResult.daysToPressure} Days` : 'None'}
                 </span>
               </div>
@@ -410,7 +410,7 @@ export const ScenarioSimulatorView: React.FC<ScenarioSimulatorViewProps> = ({
           {/* Causal Cascade */}
           <div className="fintech-card p-5 rounded-2xl space-y-4 bg-white">
             <h4 className="text-xs font-bold uppercase tracking-wider text-slate-900 flex items-center space-x-2">
-              <GitFork className="w-4 h-4 text-indigo-600" />
+              <GitFork className="w-4 h-4 text-teal-600" />
               <span>Step-by-Step Causal Consequence Chain</span>
             </h4>
 
@@ -420,7 +420,7 @@ export const ScenarioSimulatorView: React.FC<ScenarioSimulatorViewProps> = ({
                   key={step.step}
                   className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 flex items-start space-x-3"
                 >
-                  <div className="w-6 h-6 rounded-full bg-indigo-100 border border-indigo-200 text-indigo-800 flex items-center justify-center text-xs font-bold font-mono shrink-0 mt-0.5">
+                  <div className="w-6 h-6 rounded-full bg-teal-100 border border-teal-200 text-teal-800 flex items-center justify-center text-xs font-bold font-mono shrink-0 mt-0.5">
                     {step.step}
                   </div>
                   <div className="flex-1">

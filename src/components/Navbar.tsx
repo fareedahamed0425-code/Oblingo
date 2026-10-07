@@ -57,7 +57,7 @@ export const Navbar: React.FC<NavbarProps> = ({
       id: 'dashboard',
       label: 'Financial Dashboard',
       description: 'KPI summary, early warnings & 30-day cash timeline',
-      icon: <LayoutDashboard className="w-4 h-4 text-indigo-600" />,
+      icon: <LayoutDashboard className="w-4 h-4 text-teal-600" />,
     },
     {
       id: 'obligations',
@@ -70,19 +70,19 @@ export const Navbar: React.FC<NavbarProps> = ({
       id: 'cashflow',
       label: 'Cash Flow Timeline',
       description: 'Daily cash projection curve & safety buffer monitoring',
-      icon: <TrendingUp className="w-4 h-4 text-emerald-600" />,
+      icon: <TrendingUp className="w-4 h-4 text-teal-700" />,
     },
     {
       id: 'graph',
       label: 'Dependency Graph',
       description: 'Interactive causal links & downstream cascade tracing',
-      icon: <GitFork className="w-4 h-4 text-violet-600" />,
+      icon: <GitFork className="w-4 h-4 text-blue-700" />,
     },
     {
       id: 'scenarios',
       label: 'Scenario Simulator',
       description: 'What-If simulation & delay stress testing',
-      icon: <SlidersHorizontal className="w-4 h-4 text-amber-600" />,
+      icon: <SlidersHorizontal className="w-4 h-4 text-teal-600" />,
       badge: 'What-If',
     },
     {
@@ -96,7 +96,7 @@ export const Navbar: React.FC<NavbarProps> = ({
       id: 'assistant',
       label: 'AI Intelligence Assistant',
       description: 'Deterministic obligation analysis via NVIDIA Nemotron',
-      icon: <BotMessageSquare className="w-4 h-4 text-indigo-600" />,
+      icon: <BotMessageSquare className="w-4 h-4 text-blue-600" />,
     },
   ];
 
@@ -116,7 +116,7 @@ export const Navbar: React.FC<NavbarProps> = ({
     <div className="sticky top-4 z-40 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pointer-events-none">
       <div className="flex flex-wrap items-center justify-between gap-3 pointer-events-auto">
         {/* Floating Item 1: Brand & Logo Pill */}
-        <div className="bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-2xl border border-slate-200/90 shadow-sm hover:shadow transition-shadow">
+        <div className="bg-white px-3.5 py-2 rounded-2xl border border-slate-200 shadow-sm hover:shadow transition-shadow">
           <button
             onClick={() => {
               onSelectTab('dashboard');
@@ -132,9 +132,9 @@ export const Navbar: React.FC<NavbarProps> = ({
         <div className="relative" ref={menuRef}>
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="flex items-center space-x-2.5 px-4 py-2.5 rounded-2xl bg-white/95 backdrop-blur-md border border-slate-200/90 hover:border-slate-300 text-slate-800 text-xs font-bold transition-all shadow-sm hover:shadow"
+            className="flex items-center space-x-2.5 px-4 py-2.5 rounded-2xl bg-white border border-slate-200 hover:border-slate-300 text-slate-800 text-xs font-bold transition-all shadow-sm hover:shadow"
           >
-            <div className="p-1 rounded-lg bg-indigo-50 text-indigo-600">
+            <div className="p-1 rounded-lg bg-teal-50 text-teal-700">
               <Menu className="w-3.5 h-3.5" />
             </div>
             <span className="hidden sm:inline text-slate-400 font-medium">Module:</span>
@@ -169,7 +169,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                       }}
                       className={`w-full text-left p-2.5 rounded-xl transition-all flex items-start space-x-3 group ${
                         isSelected
-                          ? 'bg-indigo-50/90 border border-indigo-200 text-indigo-950'
+                          ? 'bg-teal-50 border border-teal-200 text-teal-950'
                           : 'hover:bg-slate-50 text-slate-700'
                       }`}
                     >
@@ -178,7 +178,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center space-x-2">
-                          <span className={`text-xs font-bold ${isSelected ? 'text-indigo-900' : 'text-slate-900 group-hover:text-indigo-600'}`}>
+                          <span className={`text-xs font-bold ${isSelected ? 'text-teal-900' : 'text-slate-900 group-hover:text-teal-700'}`}>
                             {item.label}
                           </span>
                           {item.badge && (
@@ -192,7 +192,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                         </p>
                       </div>
                       {isSelected && (
-                        <ArrowRight className="w-4 h-4 text-indigo-600 shrink-0 self-center" />
+                        <ArrowRight className="w-4 h-4 text-teal-700 shrink-0 self-center" />
                       )}
                     </button>
                   );
@@ -203,28 +203,28 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
 
         {/* Floating Item 3: Reference Date & Available Cash Pill */}
-        <div className="hidden lg:flex items-center space-x-2.5 px-4 py-2.5 rounded-2xl bg-white/95 backdrop-blur-md border border-slate-200/90 shadow-sm text-xs text-slate-700">
+        <div className="hidden lg:flex items-center space-x-2.5 px-4 py-2.5 rounded-2xl bg-white border border-slate-200 shadow-sm text-xs text-slate-700">
           <Calendar className="w-3.5 h-3.5 text-slate-400" />
           <span className="text-[11px] text-slate-400 font-medium">Ref:</span>
           <span className="font-mono text-[11px] text-slate-800 font-bold">15 Sep 2026</span>
           <span className="text-slate-300">|</span>
-          <Wallet className="w-3.5 h-3.5 text-emerald-600" />
-          <span className="font-mono text-[11px] text-emerald-700 font-extrabold">
+          <Wallet className="w-3.5 h-3.5 text-teal-600" />
+          <span className="font-mono text-[11px] text-teal-700 font-extrabold">
             {formatINR(BASE_STARTING_CASH, true)}
           </span>
         </div>
 
-        {/* Floating Item 4: Hero Delay Scenario Button */}
-        <div className="bg-white/95 backdrop-blur-md p-1 rounded-2xl border border-slate-200/90 shadow-sm">
+        {/* Floating Item 4: Hero Delay Scenario Button (Solid Teal) */}
+        <div className="bg-white p-1 rounded-2xl border border-slate-200 shadow-sm">
           <button
             onClick={onTriggerHeroDemo}
             className={`flex items-center space-x-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all shadow-sm ${
               isHeroDemoActive
-                ? 'bg-rose-600 hover:bg-rose-700 text-white shadow-rose-200 animate-pulse'
-                : 'bg-indigo-600 hover:bg-indigo-700 text-white shadow-indigo-100 hover:scale-[1.02]'
+                ? 'bg-rose-600 hover:bg-rose-700 text-white animate-pulse'
+                : 'bg-teal-600 hover:bg-teal-700 text-white hover:bg-teal-700'
             }`}
           >
-            <Zap className="w-3.5 h-3.5 fill-current text-amber-300" />
+            <Zap className="w-3.5 h-3.5 fill-current text-white" />
             <span>
               {isHeroDemoActive ? 'Active Demo: Customer Delay' : 'Hero Scenario: 10-Day Delay'}
             </span>

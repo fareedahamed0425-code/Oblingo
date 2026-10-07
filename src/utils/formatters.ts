@@ -123,7 +123,7 @@ export function getStatusBadgeClasses(status: string): { bg: string; text: strin
     case 'UPCOMING':
       return { bg: 'bg-blue-50 border-blue-200', text: 'text-blue-700' };
     case 'DUE':
-      return { bg: 'bg-indigo-50 border-indigo-200', text: 'text-indigo-700' };
+      return { bg: 'bg-teal-50 border-teal-200', text: 'text-teal-700' };
     case 'DELAYED':
       return { bg: 'bg-amber-50 border-amber-200', text: 'text-amber-800' };
     case 'AT_RISK':

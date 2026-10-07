@@ -50,8 +50,12 @@ body {
   transform: translateY(-1px);
 }
 
-.glow-indigo {
-  box-shadow: 0 0 20px -3px rgba(99, 102, 241, 0.2);
+.glow-teal {
+  box-shadow: 0 0 20px -3px rgba(13, 148, 136, 0.2);
+}
+
+.glow-blue {
+  box-shadow: 0 0 20px -3px rgba(37, 99, 235, 0.2);
 }
 
 .glow-danger {

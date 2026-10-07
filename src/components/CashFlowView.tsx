@@ -60,7 +60,7 @@ export const CashFlowView: React.FC<CashFlowViewProps> = ({
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200 pb-4">
         <div>
           <h1 className="text-xl font-bold tracking-tight text-slate-900 flex items-center space-x-2">
-            <TrendingUp className="w-5 h-5 text-indigo-600" />
+            <TrendingUp className="w-5 h-5 text-teal-600" />
             <span>Forward Cash Flow Timeline & Buffer Health</span>
           </h1>
           <p className="text-xs text-slate-600 mt-0.5">
@@ -77,7 +77,7 @@ export const CashFlowView: React.FC<CashFlowViewProps> = ({
               onClick={() => setHorizonDays(days)}
               className={`px-3 py-1 rounded-xl text-xs font-bold transition-all ${
                 horizonDays === days
-                  ? 'bg-indigo-600 text-white shadow-sm'
+                  ? 'bg-teal-600 text-white shadow-sm'
                   : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
               }`}
             >
@@ -102,22 +102,26 @@ export const CashFlowView: React.FC<CashFlowViewProps> = ({
 
         {/* Expected Inflows */}
         <div className="fintech-card p-4 rounded-2xl">
-          <span className="text-xs font-semibold text-slate-500">Expected Inflows</span>
-          <div className="mt-1 flex items-baseline space-x-1 text-emerald-600">
-            <ArrowDownLeft className="w-4 h-4" />
-            <span className="text-xl font-bold font-mono">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-semibold text-slate-500">Total Inflows</span>
+            <ArrowDownLeft className="w-3.5 h-3.5 text-teal-600" />
+          </div>
+          <div className="mt-1 flex items-baseline space-x-1">
+            <span className="text-xl font-bold font-mono text-teal-700">
               +{formatINR(summary.totalExpectedInflows, true)}
             </span>
           </div>
           <p className="text-[11px] text-slate-500 mt-1">Over {horizonDays} days</p>
         </div>
 
-        {/* Expected Outflows */}
+        {/* Committed Outflows */}
         <div className="fintech-card p-4 rounded-2xl">
-          <span className="text-xs font-semibold text-slate-500">Committed Outflows</span>
-          <div className="mt-1 flex items-baseline space-x-1 text-rose-600">
-            <ArrowUpRight className="w-4 h-4" />
-            <span className="text-xl font-bold font-mono">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-semibold text-slate-500">Total Outflows</span>
+            <ArrowUpRight className="w-3.5 h-3.5 text-rose-600" />
+          </div>
+          <div className="mt-1 flex items-baseline space-x-1">
+            <span className="text-xl font-bold font-mono text-rose-700">
               -{formatINR(summary.totalExpectedOutflows, true)}
             </span>
           </div>
@@ -128,7 +132,7 @@ export const CashFlowView: React.FC<CashFlowViewProps> = ({
         <div className="fintech-card p-4 rounded-2xl">
           <span className="text-xs font-semibold text-slate-500">Projected Ending Cash</span>
           <div className="mt-1 flex items-baseline space-x-1">
-            <span className="text-xl font-bold font-mono text-indigo-700">
+            <span className="text-xl font-bold font-mono text-blue-700">
               {formatINR(summary.endingProjectedCash, true)}
             </span>
           </div>
@@ -166,7 +170,7 @@ export const CashFlowView: React.FC<CashFlowViewProps> = ({
             Projected Cash Trajectory vs Minimum Safety Buffer (₹5.0L)
           </h3>
           <p className="text-xs text-slate-500">
-            Green = Realized / Expected Inflows, Red = Committed Outflows, Purple Line = Cumulative Cash
+            Teal = Expected Inflows, Rose = Committed Outflows, Blue Line = Cumulative Cash
           </p>
         </div>
 
@@ -197,7 +201,7 @@ export const CashFlowView: React.FC<CashFlowViewProps> = ({
                         </p>
                         <div className="flex justify-between space-x-4">
                           <span className="text-slate-500">Inflows:</span>
-                          <span className="font-mono text-emerald-700 font-bold">
+                          <span className="font-mono text-teal-700 font-bold">
                             {formatINR(data.inflows)}
                           </span>
                         </div>
@@ -209,7 +213,7 @@ export const CashFlowView: React.FC<CashFlowViewProps> = ({
                         </div>
                         <div className="flex justify-between space-x-4 border-t border-slate-100 pt-1">
                           <span className="text-slate-700 font-semibold">Projected Cash:</span>
-                          <span className="font-mono text-indigo-700 font-bold">
+                          <span className="font-mono text-blue-700 font-bold">
                             {formatINR(data.projectedCash)}
                           </span>
                         </div>
@@ -221,7 +225,7 @@ export const CashFlowView: React.FC<CashFlowViewProps> = ({
                             {data.events.map((ev: any, idx: number) => (
                               <div key={idx} className="text-[11px] text-slate-700 flex justify-between space-x-2">
                                 <span className="truncate max-w-[140px] font-medium">{ev.counterparty}</span>
-                                <span className={ev.category === 'INFLOW' ? 'text-emerald-700 font-mono font-bold' : 'text-rose-700 font-mono font-bold'}>
+                                <span className={ev.category === 'INFLOW' ? 'text-teal-700 font-mono font-bold' : 'text-rose-700 font-mono font-bold'}>
                                   {ev.category === 'INFLOW' ? '+' : '-'}{formatINR(ev.amount, true)}
                                 </span>
                               </div>
@@ -245,15 +249,15 @@ export const CashFlowView: React.FC<CashFlowViewProps> = ({
                   position: 'insideTopRight',
                 }}
               />
-              <Bar dataKey="inflows" fill="#10b981" radius={[4, 4, 0, 0]} maxBarSize={20} />
+              <Bar dataKey="inflows" fill="#0d9488" radius={[4, 4, 0, 0]} maxBarSize={20} />
               <Bar dataKey="outflows" fill="#f43f5e" radius={[0, 0, 4, 4]} maxBarSize={20} />
               <Line
                 type="monotone"
                 dataKey="projectedCash"
-                stroke="#6366f1"
+                stroke="#2563eb"
                 strokeWidth={3}
-                dot={{ r: 3, fill: '#6366f1' }}
-                activeDot={{ r: 6, fill: '#4f46e5' }}
+                dot={{ r: 3, fill: '#2563eb' }}
+                activeDot={{ r: 6, fill: '#1d4ed8' }}
               />
             </ComposedChart>
           </ResponsiveContainer>
@@ -288,7 +292,7 @@ export const CashFlowView: React.FC<CashFlowViewProps> = ({
                   <td className="py-3 px-3 whitespace-nowrap font-mono font-medium text-slate-900">
                     {formatDate(point.date, { includeYear: true })}
                   </td>
-                  <td className="py-3 px-3 whitespace-nowrap font-mono font-bold text-emerald-700">
+                  <td className="py-3 px-3 whitespace-nowrap font-mono font-bold text-teal-700">
                     {point.inflows > 0 ? `+${formatINR(point.inflows)}` : '—'}
                   </td>
                   <td className="py-3 px-3 whitespace-nowrap font-mono font-bold text-rose-700">
@@ -296,14 +300,14 @@ export const CashFlowView: React.FC<CashFlowViewProps> = ({
                   </td>
                   <td className="py-3 px-3 whitespace-nowrap font-mono font-semibold text-slate-800">
                     {point.netDayChange !== 0 ? (
-                      <span className={point.netDayChange > 0 ? 'text-emerald-700' : 'text-rose-700'}>
+                      <span className={point.netDayChange > 0 ? 'text-teal-700' : 'text-rose-700'}>
                         {point.netDayChange > 0 ? '+' : ''}{formatINR(point.netDayChange)}
                       </span>
                     ) : (
                       '—'
                     )}
                   </td>
-                  <td className="py-3 px-3 whitespace-nowrap font-mono font-bold text-right text-indigo-700">
+                  <td className="py-3 px-3 whitespace-nowrap font-mono font-bold text-right text-blue-700">
                     {formatINR(point.projectedCash)}
                   </td>
                   <td className="py-3 px-3">
@@ -317,8 +321,8 @@ export const CashFlowView: React.FC<CashFlowViewProps> = ({
                             onClick={() => onSelectObligation(ev.id)}
                             className={`px-2.5 py-0.5 rounded-lg text-[10px] font-bold border transition-all hover:scale-105 ${
                               ev.category === 'INFLOW'
-                                ? 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100'
-                                : 'bg-slate-100 text-slate-800 border-slate-200 hover:bg-slate-200'
+                                ? 'bg-teal-50 text-teal-700 border-teal-200 hover:bg-teal-100'
+                                : 'bg-rose-50 text-rose-700 border-rose-200 hover:bg-rose-100'
                             }`}
                           >
                             {ev.counterparty} ({formatINR(ev.amount, true)})

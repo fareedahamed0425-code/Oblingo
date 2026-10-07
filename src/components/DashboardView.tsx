@@ -14,12 +14,10 @@ import {
   GitFork,
   SlidersHorizontal,
   BotMessageSquare,
-  Clock,
   Sparkles,
   CheckCircle2,
 } from 'lucide-react';
 import {
-  BarChart,
   Bar,
   XAxis,
   YAxis,
@@ -72,7 +70,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             <h1 className="text-2xl font-bold tracking-tight text-slate-900">
               Financial Intelligence Overview
             </h1>
-            <span className="px-2 py-0.5 text-[10px] font-bold tracking-wide bg-indigo-50 border border-indigo-200 text-indigo-700 rounded-md">
+            <span className="px-2 py-0.5 text-[10px] font-bold tracking-wide bg-teal-50 border border-teal-200 text-teal-800 rounded-md">
               Forward-Looking Mode
             </span>
           </div>
@@ -87,12 +85,12 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             onClick={() => onNavigateTab('assistant')}
             className="flex items-center space-x-1.5 px-3.5 py-2 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 text-xs font-semibold shadow-sm transition-colors"
           >
-            <BotMessageSquare className="w-3.5 h-3.5 text-indigo-600" />
+            <BotMessageSquare className="w-3.5 h-3.5 text-blue-600" />
             <span>Ask Intelligence AI</span>
           </button>
           <button
             onClick={onRunHeroScenario}
-            className="flex items-center space-x-1.5 px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold shadow-md shadow-indigo-200 transition-all hover:scale-[1.02]"
+            className="flex items-center space-x-1.5 px-3.5 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold shadow-sm transition-all hover:scale-[1.02]"
           >
             <SlidersHorizontal className="w-3.5 h-3.5" />
             <span>Simulate Customer Delay</span>
@@ -106,7 +104,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         <div className="fintech-card fintech-card-hover p-5 rounded-2xl relative">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-slate-500">Current Cash</span>
-            <div className="p-2 rounded-xl bg-emerald-50 text-emerald-600 border border-emerald-100">
+            <div className="p-2 rounded-xl bg-teal-50 text-teal-700 border border-teal-100">
               <Wallet className="w-4 h-4" />
             </div>
           </div>
@@ -118,7 +116,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
               Available liquid working capital
             </p>
           </div>
-          <div className="mt-3 flex items-center space-x-1 text-[11px] text-emerald-700 font-semibold">
+          <div className="mt-3 flex items-center space-x-1 text-[11px] text-teal-700 font-semibold">
             <CheckCircle2 className="w-3.5 h-3.5" />
             <span>Buffer Healthy (₹5.0L Min)</span>
           </div>
@@ -128,125 +126,122 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         <div className="fintech-card fintech-card-hover p-5 rounded-2xl relative">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-slate-500">30-Day Expected Inflows</span>
-            <div className="p-2 rounded-xl bg-blue-50 text-blue-600 border border-blue-100">
+            <div className="p-2 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-100">
               <ArrowDownLeft className="w-4 h-4" />
             </div>
           </div>
           <div className="mt-2">
-            <span className="text-2xl font-bold font-mono text-slate-900">
+            <span className="text-2xl font-bold font-mono text-emerald-700">
               {formatINR(dashboardData.inflows30Days, true)}
             </span>
             <p className="text-[11px] text-slate-500 mt-0.5">
-              From verified client invoices
+              4 Customer receivables
             </p>
           </div>
-          <div className="mt-3 flex items-center space-x-1 text-[11px] text-blue-700 font-semibold">
-            <Clock className="w-3.5 h-3.5" />
-            <span>Next: ₹12.0L (Sept 20)</span>
+          <div className="mt-3 flex items-center space-x-1 text-[11px] text-emerald-700 font-semibold">
+            <TrendingUp className="w-3.5 h-3.5" />
+            <span>Expected On-Time</span>
           </div>
         </div>
 
-        {/* 30-Day Obligations */}
+        {/* 30-Day Committed Outflows */}
         <div className="fintech-card fintech-card-hover p-5 rounded-2xl relative">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-500">30-Day Commitments</span>
-            <div className="p-2 rounded-xl bg-indigo-50 text-indigo-600 border border-indigo-100">
+            <span className="text-xs font-semibold text-slate-500">30-Day Committed Outflows</span>
+            <div className="p-2 rounded-xl bg-rose-50 text-rose-700 border border-rose-100">
               <ArrowUpRight className="w-4 h-4" />
             </div>
           </div>
           <div className="mt-2">
-            <span className="text-2xl font-bold font-mono text-slate-900">
+            <span className="text-2xl font-bold font-mono text-rose-700">
               {formatINR(dashboardData.outflows30Days, true)}
             </span>
             <p className="text-[11px] text-slate-500 mt-0.5">
-              Suppliers, payroll, EMI & taxes
+              Payroll, suppliers, debt, taxes
             </p>
           </div>
-          <div className="mt-3 flex items-center space-x-1 text-[11px] text-slate-600 font-medium">
-            <span>Net Delta:</span>
-            <span className={`font-mono font-bold ${dashboardData.netCash30Days >= 0 ? 'text-emerald-700' : 'text-rose-700'}`}>
-              {dashboardData.netCash30Days >= 0 ? '+' : ''}{formatINR(dashboardData.netCash30Days, true)}
-            </span>
+          <div className="mt-3 flex items-center space-x-1 text-[11px] text-rose-700 font-semibold">
+            <TrendingDown className="w-3.5 h-3.5" />
+            <span>Strict Due Dates</span>
           </div>
         </div>
 
-        {/* Amount At Risk */}
-        <div className="fintech-card fintech-card-hover p-5 rounded-2xl relative border-amber-200 bg-amber-50/30">
+        {/* Liquidity Risk Level */}
+        <div className="fintech-card fintech-card-hover p-5 rounded-2xl relative">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-amber-900">Amount At Risk</span>
-            <div className="p-2 rounded-xl bg-amber-100 text-amber-700">
-              <AlertTriangle className="w-4 h-4" />
-            </div>
-          </div>
-          <div className="mt-2">
-            <span className="text-2xl font-bold font-mono text-amber-800">
-              {formatINR(dashboardData.amountAtRisk, true)}
-            </span>
-            <p className="text-[11px] text-slate-600 mt-0.5">
-              Supplier B (Paramount) exposed
-            </p>
-          </div>
-          <div className="mt-3 flex items-center space-x-1 text-[11px] text-amber-800 font-semibold">
-            <GitFork className="w-3.5 h-3.5" />
-            <span>4 Downstream Dependents</span>
-          </div>
-        </div>
-
-        {/* Liquidity Risk */}
-        <div className="fintech-card fintech-card-hover p-5 rounded-2xl relative border-indigo-200">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-500">Liquidity Risk</span>
-            <div className="p-2 rounded-xl bg-indigo-50 text-indigo-600 border border-indigo-100">
+            <span className="text-xs font-semibold text-slate-500">Liquidity Risk Level</span>
+            <div className="p-2 rounded-xl bg-amber-50 text-amber-700 border border-amber-100">
               <ShieldAlert className="w-4 h-4" />
             </div>
           </div>
-          <div className="mt-2 flex items-baseline space-x-2">
-            <span className="text-2xl font-bold font-mono text-amber-700">
-              {dashboardData.liquidityRiskLevel}
-            </span>
-            <span className="text-xs font-mono text-slate-500">
-              ({dashboardData.liquidityRiskScore}/100)
-            </span>
+          <div className="mt-2">
+            <div className="flex items-baseline space-x-2">
+              <span className="text-2xl font-bold font-mono text-amber-800">
+                {dashboardData.liquidityRiskLevel}
+              </span>
+              <span className="text-xs text-slate-500 font-mono">
+                ({dashboardData.liquidityRiskScore}/100)
+              </span>
+            </div>
+            <p className="text-[11px] text-slate-500 mt-0.5">
+              {dashboardData.atRiskObligationsCount} obligations at risk
+            </p>
           </div>
-          <div className="mt-3 flex items-center space-x-1 text-[11px] text-indigo-700 font-semibold">
-            <TrendingUp className="w-3.5 h-3.5" />
-            <span>Analytical Risk Engine</span>
+          <div className="mt-3 flex items-center space-x-1 text-[11px] text-amber-700 font-semibold">
+            <AlertTriangle className="w-3.5 h-3.5" />
+            <span>Buffer Breaches on Delay</span>
+          </div>
+        </div>
+
+        {/* Critical Dependencies */}
+        <div className="fintech-card fintech-card-hover p-5 rounded-2xl relative">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-semibold text-slate-500">Critical Dependencies</span>
+            <div className="p-2 rounded-xl bg-blue-50 text-blue-700 border border-blue-100">
+              <GitFork className="w-4 h-4" />
+            </div>
+          </div>
+          <div className="mt-2">
+            <span className="text-2xl font-bold font-mono text-blue-700">
+              {dashboardData.criticalDependenciesCount}
+            </span>
+            <p className="text-[11px] text-slate-500 mt-0.5">
+              Across {obligations.length} total commitments
+            </p>
+          </div>
+          <div className="mt-3 flex items-center space-x-1 text-[11px] text-blue-700 font-semibold">
+            <GitFork className="w-3.5 h-3.5" />
+            <span>High cascade sensitivity</span>
           </div>
         </div>
       </div>
 
-      {/* EARLY WARNINGS SECTION */}
+      {/* EARLY WARNING BANNER */}
       <div className="space-y-3">
         <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <AlertOctagon className="w-4 h-4 text-rose-600" />
-            <h2 className="text-sm font-bold uppercase tracking-wider text-slate-800">
-              Early Warning Intelligence
-            </h2>
-          </div>
-          <button
-            onClick={() => onNavigateTab('risks')}
-            className="text-xs text-indigo-600 hover:text-indigo-800 font-semibold flex items-center space-x-1"
-          >
-            <span>View All Diagnostics</span>
-            <ArrowRight className="w-3.5 h-3.5" />
-          </button>
+          <h2 className="text-base font-bold text-slate-900 tracking-tight flex items-center space-x-2">
+            <AlertOctagon className="w-5 h-5 text-rose-600" />
+            <span>Early Warning Intelligence</span>
+          </h2>
+          <span className="text-xs text-slate-500">
+            {dashboardData.earlyWarnings.length} active warnings detected
+          </span>
         </div>
 
         {dashboardData.earlyWarnings.map((warning) => {
-          const isHero = warning.id === 'warn-hero-nexus';
+          const isHigh = warning.severity === 'HIGH' || warning.severity === 'CRITICAL';
           return (
             <div
               key={warning.id}
               className={`p-5 rounded-2xl border transition-all ${
-                isHero
-                  ? 'bg-gradient-to-r from-rose-50/80 via-white to-white border-rose-200 shadow-sm'
-                  : 'bg-white border-slate-200 shadow-sm'
+                isHigh
+                  ? 'bg-white border-rose-300 shadow-sm'
+                  : 'bg-white border-amber-300 shadow-sm'
               }`}
             >
-              <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-                <div className="space-y-1.5 flex-1">
-                  <div className="flex items-center space-x-2.5">
+              <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
+                <div className="space-y-2 flex-1">
+                  <div className="flex items-center space-x-2">
                     <span className="px-2 py-0.5 rounded text-[10px] font-bold tracking-wider uppercase bg-rose-100 text-rose-700 border border-rose-200">
                       {warning.severity} RISK
                     </span>
@@ -273,7 +268,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                     </div>
                     <div>
                       <span className="text-slate-500">Financial Exposure: </span>
-                      <span className="text-emerald-700 font-mono font-bold">
+                      <span className="text-teal-700 font-mono font-bold">
                         {formatINR(warning.financialImpact, true)}
                       </span>
                     </div>
@@ -284,7 +279,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                 <div className="flex sm:flex-col gap-2 shrink-0">
                   <button
                     onClick={() => onNavigateTab('graph')}
-                    className="flex items-center justify-center space-x-1.5 px-4 py-2 rounded-xl bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-indigo-700 text-xs font-bold transition-all"
+                    className="flex items-center justify-center space-x-1.5 px-4 py-2 rounded-xl bg-teal-50 hover:bg-teal-100 border border-teal-200 text-teal-800 text-xs font-bold transition-all"
                   >
                     <GitFork className="w-3.5 h-3.5" />
                     <span>View Cascade</span>
@@ -308,16 +303,16 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
             <h2 className="text-base font-bold text-slate-900 tracking-tight flex items-center space-x-2">
-              <TrendingUp className="w-4 h-4 text-indigo-600" />
+              <TrendingUp className="w-4 h-4 text-teal-600" />
               <span>Forward-Looking Cash Flow Timeline (30 Days)</span>
             </h2>
             <p className="text-xs text-slate-500 mt-0.5">
-              Green = Expected Inflows, Red = Committed Outflows, Purple Line = Projected Cash Balance
+              Teal = Expected Inflows, Rose = Committed Outflows, Blue Line = Projected Cash Balance
             </p>
           </div>
           <button
             onClick={() => onNavigateTab('cashflow')}
-            className="text-xs text-indigo-600 hover:text-indigo-800 font-semibold flex items-center space-x-1 self-start sm:self-auto"
+            className="text-xs text-teal-700 hover:text-teal-900 font-semibold flex items-center space-x-1 self-start sm:self-auto"
           >
             <span>Full Cash Ledger</span>
             <ArrowRight className="w-3 h-3" />
@@ -352,7 +347,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                         </p>
                         <div className="flex justify-between space-x-4">
                           <span className="text-slate-500">Inflows:</span>
-                          <span className="font-mono text-emerald-700 font-bold">
+                          <span className="font-mono text-teal-700 font-bold">
                             {formatINR(data.inflows)}
                           </span>
                         </div>
@@ -364,7 +359,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                         </div>
                         <div className="flex justify-between space-x-4 border-t border-slate-100 pt-1">
                           <span className="text-slate-700 font-semibold">Projected Cash:</span>
-                          <span className="font-mono text-indigo-700 font-bold">
+                          <span className="font-mono text-blue-700 font-bold">
                             {formatINR(data.projectedCash)}
                           </span>
                         </div>
@@ -385,15 +380,15 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                   position: 'insideTopRight',
                 }}
               />
-              <Bar dataKey="inflows" fill="#10b981" radius={[4, 4, 0, 0]} maxBarSize={16} />
+              <Bar dataKey="inflows" fill="#0d9488" radius={[4, 4, 0, 0]} maxBarSize={16} />
               <Bar dataKey="outflows" fill="#f43f5e" radius={[0, 0, 4, 4]} maxBarSize={16} />
               <Line
                 type="monotone"
                 dataKey="projectedCash"
-                stroke="#6366f1"
+                stroke="#2563eb"
                 strokeWidth={2.5}
-                dot={{ r: 3, fill: '#6366f1' }}
-                activeDot={{ r: 6, fill: '#4f46e5' }}
+                dot={{ r: 3, fill: '#2563eb' }}
+                activeDot={{ r: 6, fill: '#1d4ed8' }}
               />
             </ComposedChart>
           </ResponsiveContainer>
@@ -409,7 +404,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             </h3>
             <button
               onClick={() => onNavigateTab('obligations')}
-              className="text-xs text-indigo-600 hover:text-indigo-800 font-semibold"
+              className="text-xs text-teal-700 hover:text-teal-900 font-semibold"
             >
               View all ({obligations.length}) →
             </button>
@@ -422,13 +417,13 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                 <div
                   key={ob.id}
                   onClick={() => onSelectObligation(ob.id)}
-                  className="p-3.5 rounded-xl bg-slate-50 hover:bg-indigo-50/50 border border-slate-200/80 hover:border-indigo-200 transition-all cursor-pointer flex items-center justify-between group"
+                  className="p-3.5 rounded-xl bg-slate-50 hover:bg-teal-50/50 border border-slate-200/80 hover:border-teal-200 transition-all cursor-pointer flex items-center justify-between group"
                 >
                   <div className="flex items-center space-x-3">
-                    <div className="w-1.5 h-8 rounded-full bg-slate-300 group-hover:bg-indigo-600 transition-colors" />
+                    <div className="w-1.5 h-8 rounded-full bg-slate-300 group-hover:bg-teal-600 transition-colors" />
                     <div>
                       <div className="flex items-center space-x-2">
-                        <span className="text-xs font-bold text-slate-900 group-hover:text-indigo-700 transition-colors">
+                        <span className="text-xs font-bold text-slate-900 group-hover:text-teal-800 transition-colors">
                           {ob.counterparty}
                         </span>
                         <span className={`text-[10px] px-1.5 py-0.2 rounded font-bold uppercase ${riskBadge.bg} ${riskBadge.text} border ${riskBadge.border}`}>
@@ -453,10 +448,10 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           </div>
         </div>
 
-        {/* Intelligence Side Card */}
-        <div className="fintech-card p-5 rounded-2xl space-y-4 bg-gradient-to-br from-indigo-50 via-white to-white border-indigo-200 flex flex-col justify-between">
+        {/* Intelligence Side Card (Solid White with Teal Border) */}
+        <div className="fintech-card p-5 rounded-2xl space-y-4 bg-white border-teal-200 flex flex-col justify-between">
           <div className="space-y-2">
-            <div className="flex items-center space-x-2 text-indigo-700">
+            <div className="flex items-center space-x-2 text-teal-700">
               <Sparkles className="w-4 h-4" />
               <h3 className="text-xs font-bold uppercase tracking-wider">
                 Intelligence Engine
@@ -476,20 +471,20 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
               className="w-full flex items-center justify-between p-2.5 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-800 transition-colors shadow-sm"
             >
               <div className="flex items-center space-x-2">
-                <GitFork className="w-3.5 h-3.5 text-indigo-600" />
+                <GitFork className="w-3.5 h-3.5 text-blue-600" />
                 <span>Interactive Dependency Graph</span>
               </div>
               <ArrowRight className="w-3.5 h-3.5 text-slate-400" />
             </button>
             <button
               onClick={() => onNavigateTab('assistant')}
-              className="w-full flex items-center justify-between p-2.5 rounded-xl bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-xs font-bold text-indigo-800 transition-colors"
+              className="w-full flex items-center justify-between p-2.5 rounded-xl bg-teal-50 hover:bg-teal-100 border border-teal-200 text-xs font-bold text-teal-900 transition-colors"
             >
               <div className="flex items-center space-x-2">
-                <BotMessageSquare className="w-3.5 h-3.5 text-indigo-600" />
+                <BotMessageSquare className="w-3.5 h-3.5 text-teal-700" />
                 <span>Ask Intelligence AI</span>
               </div>
-              <ArrowRight className="w-3.5 h-3.5 text-indigo-600" />
+              <ArrowRight className="w-3.5 h-3.5 text-teal-700" />
             </button>
           </div>
         </div>

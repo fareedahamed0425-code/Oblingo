@@ -30,7 +30,7 @@ export const AIAssistantView: React.FC<AIAssistantViewProps> = ({
       role: 'assistant',
       content: `Hello. I am the **OBLIGO Financial Intelligence Assistant**.
 
-I am strictly specialized in analyzing your financial obligations, cash flow dependencies, liquidity risk, and scenario stress tests.
+I am specialized in analyzing your financial obligations, cash flow dependencies, liquidity risk, and scenario stress tests.
 
 **Popular Analytical Queries:**
 - *"What happens if Customer A pays 10 days late?"*
@@ -75,113 +75,124 @@ I am strictly specialized in analyzing your financial obligations, cash flow dep
     setIsTyping(true);
 
     try {
-      const res = await fetch('/api/assistant', {
+      const response = await fetch('/api/assistant', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: text }),
+        body: JSON.stringify({ query: text }),
       });
 
-      if (!res.ok) {
-        throw new Error(`API returned ${res.status}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch AI response');
       }
 
-      const data: AIAssistantMessage = await res.json();
-      setMessages((prev) => [...prev, data]);
-    } catch (err: any) {
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: `err-${Date.now()}`,
-          role: 'assistant',
-          content: `Unable to process query. Connection error: ${err.message || 'Server unavailable'}.`,
-          timestamp: new Date().toISOString(),
-        },
-      ]);
+      const data = await response.json();
+
+      const assistantMessage: AIAssistantMessage = {
+        id: `assistant-${Date.now()}`,
+        role: 'assistant',
+        content: data.reply,
+        timestamp: new Date().toISOString(),
+        insights: data.insights || undefined,
+      };
+
+      setMessages((prev) => [...prev, assistantMessage]);
+    } catch {
+      const errorMessage: AIAssistantMessage = {
+        id: `error-${Date.now()}`,
+        role: 'assistant',
+        content:
+          'I encountered a network issue while synthesizing financial intelligence telemetry. Please retry your query.',
+        timestamp: new Date().toISOString(),
+      };
+      setMessages((prev) => [...prev, errorMessage]);
     } finally {
       setIsTyping(false);
     }
   };
 
-  const handleClearChat = () => {
+  const handleClearHistory = () => {
     setMessages([
       {
         id: 'welcome-msg',
         role: 'assistant',
-        content: `Conversation reset. Ask any question regarding your **${obligations.length} financial obligations**, cash flow timeline, or scenario projections.`,
+        content: `Conversation reset. Please ask a financial query regarding your live obligation portfolio.`,
         timestamp: new Date().toISOString(),
       },
     ]);
   };
 
   return (
-    <div className="space-y-4 animate-fadeIn pb-12 pt-2">
+    <div className="space-y-6 animate-fadeIn pb-12">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-slate-200 pb-4">
         <div>
           <h1 className="text-xl font-bold tracking-tight text-slate-900 flex items-center space-x-2">
-            <BotMessageSquare className="w-5 h-5 text-indigo-600" />
-            <span>Financial Intelligence AI Assistant</span>
+            <BotMessageSquare className="w-5 h-5 text-blue-600" />
+            <span>AI Obligation Intelligence Assistant</span>
           </h1>
           <p className="text-xs text-slate-600 mt-0.5">
-            Strictly bounded to OBLIGO financial obligation models, cash-flow consequence chains, and deterministic liquidity math.
+            Grounded financial telemetry powered by NVIDIA Nemotron-3-Super. Deterministic why, what, and when answers.
           </p>
         </div>
 
-        {/* Controls & Guardrail Notice */}
-        <div className="flex items-center space-x-2">
-          <button
-            onClick={handleClearChat}
-            className="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold border border-slate-200 shadow-sm transition-colors"
-          >
-            <RotateCcw className="w-3.5 h-3.5" />
-            <span>Reset Chat</span>
-          </button>
-          <div className="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold">
-            <ShieldCheck className="w-4 h-4 text-emerald-600" />
-            <span>OBLIGO Exclusive Mode</span>
+        <div className="flex items-center space-x-2 self-start md:self-auto">
+          <div className="flex items-center space-x-1 px-2.5 py-1 rounded-xl bg-teal-50 text-teal-800 border border-teal-200 text-xs font-semibold">
+            <ShieldCheck className="w-3.5 h-3.5 text-teal-600" />
+            <span>Grounded In Live Ledger Data</span>
           </div>
+          <button
+            onClick={handleClearHistory}
+            className="p-1.5 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 text-slate-500 hover:text-slate-800 transition-colors shadow-sm"
+            title="Reset Chat"
+          >
+            <RotateCcw className="w-4 h-4" />
+          </button>
         </div>
       </div>
 
-      {/* Main Chat Interface */}
-      <div className="fintech-card rounded-2xl overflow-hidden border-slate-200 flex flex-col h-[600px] shadow-sm bg-white">
-        {/* Messages Container */}
-        <div className="flex-1 p-6 overflow-y-auto space-y-5">
+      {/* Main Chat Container */}
+      <div className="fintech-card rounded-2xl bg-white overflow-hidden flex flex-col h-[600px] border-slate-200 shadow-sm">
+        {/* Messages Area */}
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4">
           {messages.map((msg) => (
             <div
               key={msg.id}
-              className={`flex items-start space-x-3 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
+              className={`flex items-start space-x-3 ${
+                msg.role === 'user' ? 'justify-end' : 'justify-start'
+              }`}
             >
               {msg.role === 'assistant' && (
-                <div className="w-8 h-8 rounded-xl bg-indigo-600 text-white flex items-center justify-center shrink-0 shadow-sm mt-1">
+                <div className="w-8 h-8 rounded-xl bg-teal-600 text-white flex items-center justify-center shrink-0 shadow-sm mt-1">
                   <BotMessageSquare className="w-4 h-4" />
                 </div>
               )}
 
               <div
-                className={`max-w-2xl p-4 rounded-2xl text-xs space-y-3 leading-relaxed ${
+                className={`max-w-2xl rounded-2xl p-4 text-xs leading-relaxed ${
                   msg.role === 'user'
-                    ? 'bg-indigo-600 text-white rounded-tr-none shadow-sm'
-                    : 'bg-slate-50 text-slate-900 border border-slate-200 rounded-tl-none'
+                    ? 'bg-blue-600 text-white rounded-tr-none shadow-sm'
+                    : 'bg-slate-50 text-slate-800 border border-slate-200 rounded-tl-none space-y-3'
                 }`}
               >
-                {/* Content formatted */}
-                <div className="space-y-2 whitespace-pre-line font-sans">
-                  {msg.content}
+                {/* Message Content with Markdown-style bold parsing */}
+                <div className="whitespace-pre-line space-y-2">
+                  {msg.content.split('\n\n').map((paragraph, idx) => (
+                    <p key={idx}>{paragraph}</p>
+                  ))}
                 </div>
 
-                {/* Structured Insights Drawer if present */}
+                {/* Structured Insights (Cascade Chains & Traced Obligations) */}
                 {msg.insights && (
-                  <div className="pt-3 mt-2 border-t border-slate-200 space-y-2.5">
-                    {msg.insights.cascadeChain && (
+                  <div className="pt-3 border-t border-slate-200 space-y-3">
+                    {msg.insights.cascadeChain && msg.insights.cascadeChain.length > 0 && (
                       <div>
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-amber-900 block mb-1">
-                          Traced Causal Cascade:
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">
+                          Traced Causal Dependency Cascade:
                         </span>
                         <div className="flex flex-wrap items-center gap-1 text-[11px] text-slate-800">
                           {msg.insights.cascadeChain.map((step, idx) => (
                             <React.Fragment key={idx}>
-                              <span className="px-2 py-0.5 rounded-md bg-white border border-slate-200 text-slate-900 font-mono font-bold shadow-2xl">
+                              <span className="px-2 py-0.5 rounded-md bg-white border border-slate-200 text-slate-900 font-mono font-bold shadow-sm">
                                 {step}
                               </span>
                               {idx < msg.insights!.cascadeChain!.length - 1 && (
@@ -195,7 +206,7 @@ I am strictly specialized in analyzing your financial obligations, cash flow dep
 
                     {msg.insights.tracedObligations && msg.insights.tracedObligations.length > 0 && (
                       <div>
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-900 block mb-1">
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-teal-900 block mb-1">
                           Referenced Obligations:
                         </span>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
@@ -203,10 +214,10 @@ I am strictly specialized in analyzing your financial obligations, cash flow dep
                             <button
                               key={ob.id}
                               onClick={() => onSelectObligation(ob.id)}
-                              className="text-left p-2 rounded-xl bg-white hover:bg-indigo-50 border border-slate-200 flex items-center justify-between text-[11px] transition-colors shadow-sm"
+                              className="text-left p-2 rounded-xl bg-white hover:bg-teal-50 border border-slate-200 flex items-center justify-between text-[11px] transition-colors shadow-sm"
                             >
                               <span className="truncate font-bold text-slate-900">{ob.counterparty}</span>
-                              <span className="font-mono text-emerald-700 font-bold">{formatINR(ob.amount, true)}</span>
+                              <span className="font-mono text-teal-700 font-bold">{formatINR(ob.amount, true)}</span>
                             </button>
                           ))}
                         </div>
@@ -226,12 +237,12 @@ I am strictly specialized in analyzing your financial obligations, cash flow dep
 
           {isTyping && (
             <div className="flex items-start space-x-3">
-              <div className="w-8 h-8 rounded-xl bg-indigo-600 border border-indigo-700 flex items-center justify-center text-white shrink-0 mt-1 shadow-sm animate-pulse">
+              <div className="w-8 h-8 rounded-xl bg-teal-600 border border-teal-700 flex items-center justify-center text-white shrink-0 mt-1 shadow-sm animate-pulse">
                 <BotMessageSquare className="w-4 h-4" />
               </div>
               <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-sm max-w-lg space-y-2">
-                <div className="flex items-center space-x-2 text-xs text-indigo-700 font-semibold mb-1">
-                  <span className="w-2 h-2 rounded-full bg-indigo-600 animate-ping" />
+                <div className="flex items-center space-x-2 text-xs text-teal-700 font-semibold mb-1">
+                  <span className="w-2 h-2 rounded-full bg-teal-600 animate-ping" />
                   <span>Synthesizing financial dependency telemetry...</span>
                 </div>
                 <div className="h-3 w-64 bg-slate-200 animate-pulse rounded-md" />
@@ -265,31 +276,33 @@ I am strictly specialized in analyzing your financial obligations, cash flow dep
             e.preventDefault();
             handleSendMessage();
           }}
-          className="p-4 bg-white border-t border-slate-200 flex items-center space-x-3"
+          className="p-3 bg-white border-t border-slate-200 flex items-center space-x-2"
         >
           <input
             type="text"
-            placeholder="Ask an obligation or liquidity question (e.g., 'What happens if Customer A pays 10 days late?')..."
+            placeholder="Ask a financial obligation, cash flow, or delay scenario question..."
             value={inputQuery}
             onChange={(e) => setInputQuery(e.target.value)}
-            className="flex-1 px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-indigo-500 transition-colors"
+            disabled={isTyping}
+            className="flex-1 px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-teal-500 transition-colors"
           />
           <button
             type="submit"
             disabled={!inputQuery.trim() || isTyping}
-            className="p-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white shadow-sm transition-all"
+            className="p-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 disabled:opacity-50 text-white shadow-sm transition-all"
           >
             <Send className="w-4 h-4" />
           </button>
         </form>
       </div>
 
-      {/* Strict Mandate Guardrail Notice */}
-      <div className="flex items-center space-x-2 text-[11px] text-slate-500 px-2">
-        <AlertCircle className="w-3.5 h-3.5 shrink-0 text-indigo-600" />
-        <span>
-          OBLIGO AI is hardcoded exclusively for financial obligation intelligence, cash-flow consequence analysis, and scenario stress testing. It strictly refuses code generation and non-financial queries.
-        </span>
+      {/* Footer Info */}
+      <div className="flex items-center justify-between text-[11px] text-slate-500 px-1">
+        <div className="flex items-center space-x-1.5">
+          <AlertCircle className="w-3.5 h-3.5 shrink-0 text-teal-600" />
+          <span>Assistant responses are deterministically anchored to your live ledger data and financial dependency model.</span>
+        </div>
+        <span className="font-mono text-slate-400">NVIDIA Nemotron-3-Super</span>
       </div>
     </div>
   );

@@ -99,7 +99,7 @@ export const ObligationsView: React.FC<ObligationsViewProps> = ({
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-slate-200 pb-4">
         <div>
           <h1 className="text-xl font-bold tracking-tight text-slate-900 flex items-center space-x-2">
-            <Layers className="w-5 h-5 text-indigo-600" />
+            <Layers className="w-5 h-5 text-teal-600" />
             <span>Obligations Ledger</span>
           </h1>
           <p className="text-xs text-slate-600 mt-0.5">
@@ -115,7 +115,7 @@ export const ObligationsView: React.FC<ObligationsViewProps> = ({
             placeholder="Search counterparty, PO, invoice..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-9 pr-3 py-1.5 rounded-xl bg-white border border-slate-200 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-indigo-500 shadow-sm transition-colors"
+            className="w-full pl-9 pr-3 py-1.5 rounded-xl bg-white border border-slate-200 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-teal-500 shadow-sm transition-colors"
           />
         </div>
       </div>
@@ -130,14 +130,14 @@ export const ObligationsView: React.FC<ObligationsViewProps> = ({
               onClick={() => setActiveFilter(tab.id)}
               className={`flex items-center space-x-2 px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
                 isActive
-                  ? 'bg-indigo-600 text-white shadow-sm'
+                  ? 'bg-teal-600 text-white shadow-sm'
                   : 'bg-white hover:bg-slate-50 text-slate-700 border border-slate-200'
               }`}
             >
               <span>{tab.label}</span>
               <span
                 className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono font-bold ${
-                  isActive ? 'bg-indigo-700 text-white' : 'bg-slate-100 text-slate-600'
+                  isActive ? 'bg-teal-700 text-white' : 'bg-slate-100 text-slate-600'
                 }`}
               >
                 {tab.count}
@@ -213,7 +213,7 @@ export const ObligationsView: React.FC<ObligationsViewProps> = ({
                     <tr
                       key={ob.id}
                       className={`hover:bg-slate-50/80 transition-colors group cursor-pointer ${
-                        isHero ? 'bg-indigo-50/30' : ''
+                        isHero ? 'bg-teal-50/40' : ''
                       }`}
                       onClick={() => onSelectObligation(ob.id)}
                     >
@@ -247,7 +247,7 @@ export const ObligationsView: React.FC<ObligationsViewProps> = ({
                       {/* Counterparty & Description */}
                       <td className="py-3.5 px-4">
                         <div className="max-w-xs">
-                          <span className="font-bold text-slate-900 group-hover:text-indigo-600 transition-colors block">
+                          <span className="font-bold text-slate-900 group-hover:text-teal-700 transition-colors block">
                             {ob.counterparty}
                           </span>
                           <span className="text-[11px] text-slate-500 truncate block">
@@ -260,7 +260,7 @@ export const ObligationsView: React.FC<ObligationsViewProps> = ({
                       <td className="py-3.5 px-4 text-right whitespace-nowrap">
                         <span
                           className={`font-mono font-bold text-sm ${
-                            ob.category === 'INFLOW' ? 'text-emerald-700' : 'text-slate-900'
+                            ob.category === 'INFLOW' ? 'text-teal-700' : 'text-slate-900'
                           }`}
                         >
                           {formatINR(ob.amount)}
@@ -313,7 +313,7 @@ export const ObligationsView: React.FC<ObligationsViewProps> = ({
                           <span
                             className={`px-1.5 py-0.5 rounded font-mono text-[10px] font-bold ${
                               ob.dependentObligations.length > 0
-                                ? 'bg-indigo-50 border border-indigo-200 text-indigo-700'
+                                ? 'bg-teal-50 border border-teal-200 text-teal-800'
                                 : 'bg-slate-100 border border-slate-200 text-slate-500'
                             }`}
                             title={`${ob.dependentObligations.length} Downstream Dependents`}
@@ -328,7 +328,7 @@ export const ObligationsView: React.FC<ObligationsViewProps> = ({
                         <div className="flex items-center justify-end space-x-1.5" onClick={(e) => e.stopPropagation()}>
                           <button
                             onClick={() => onOpenInGraph(ob.id)}
-                            className="p-1.5 rounded-lg bg-slate-100 hover:bg-indigo-50 text-slate-600 hover:text-indigo-600 border border-slate-200 transition-colors"
+                            className="p-1.5 rounded-lg bg-slate-100 hover:bg-teal-50 text-slate-600 hover:text-teal-700 border border-slate-200 transition-colors"
                             title="Inspect in Dependency Graph"
                           >
                             <GitFork className="w-3.5 h-3.5" />
