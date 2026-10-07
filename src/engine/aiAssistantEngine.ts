@@ -1,14 +1,12 @@
-import { Obligation, AIAssistantMessage, ScenarioResult } from '@/types';
+import { Obligation, AIAssistantMessage } from '@/types';
 import { FinancialEngine } from './financialEngine';
-import { RiskEngine } from './riskEngine';
-import { GraphEngine } from './graphEngine';
-import { formatINR, formatDate, addDaysToDate } from '@/utils/formatters';
+import { formatINR, formatDate } from '@/utils/formatters';
 import { BASE_STARTING_CASH, MINIMUM_LIQUIDITY_BUFFER, REFERENCE_DATE } from '@/data/seedData';
 
 /**
  * AI Obligation Intelligence Assistant Engine
  * Answers natural language queries deterministically grounded in live obligation records and simulation engines.
- * Strictly without emojis or template placeholders.
+ * Highly formal, respectful, and articulate with zero emojis.
  */
 
 export class AIAssistantEngine {
@@ -23,7 +21,66 @@ export class AIAssistantEngine {
     const summary = FinancialEngine.calculateCashFlowTimeline(obligations, startingCash, minBuffer, 30, referenceDate);
     const heroRec = obligations.find((o) => o.id === 'nexus-rec-01');
 
-    // 1. Query: "What happens if Customer A pays 10 days late?" (Hero Scenario)
+    // 0. Polite Greetings & Pleasantries Handling
+    if (
+      lower === 'hi' ||
+      lower === 'hello' ||
+      lower === 'hey' ||
+      lower === 'good morning' ||
+      lower === 'good afternoon' ||
+      lower === 'good evening' ||
+      lower === 'greetings' ||
+      lower.startsWith('hi ') ||
+      lower.startsWith('hello ') ||
+      lower.includes('who are you') ||
+      lower.includes('how are you')
+    ) {
+      const responseText = `Good day. I am the **OBLIGO Financial Intelligence Assistant**.
+
+It is a pleasure to assist you. I am actively monitoring your portfolio of **${obligations.length} financial obligations**, forward-looking cash flow projections, and liquidity safety buffers.
+
+**How may I assist you today? You may inquire about:**
+- *"What happens if Customer A pays 10 days late?"*
+- *"How much cash do I need over the next 30 days?"*
+- *"Which commitments or suppliers are currently most at risk?"*
+- *"What downstream obligations depend directly on Customer A?"*
+- *"Why is my liquidity risk currently rated at Medium?"*
+
+Please let me know which area of your financial cash flow you would like to analyze.`;
+
+      return {
+        id: `ai-msg-${Date.now()}`,
+        role: 'assistant',
+        content: responseText,
+        timestamp: new Date().toISOString(),
+      };
+    }
+
+    // 1. Off-Topic & Coding Refusal (Polite & Respectful)
+    if (
+      lower.includes('write code') ||
+      lower.includes('python script') ||
+      lower.includes('javascript') ||
+      lower.includes('relationship advice') ||
+      lower.includes('recipe') ||
+      lower.includes('movie') ||
+      lower.includes('homework')
+    ) {
+      const responseText = `I respectfully specialize in **OBLIGO Financial Obligation & Liquidity Intelligence**.
+
+I am unable to assist with programming scripts, code generation, or non-financial matters. However, I would be pleased to help you evaluate your corporate cash flow, upcoming obligations, or scenario stress testing.
+
+Please feel free to ask any question regarding your financial obligations or liquidity position.`;
+
+      return {
+        id: `ai-msg-${Date.now()}`,
+        role: 'assistant',
+        content: responseText,
+        timestamp: new Date().toISOString(),
+      };
+    }
+
+    // 2. Query: "What happens if Customer A pays 10 days late?" (Hero Scenario)
     if (
       (lower.includes('customer a') || lower.includes('nexus') || lower.includes('10 day') || lower.includes('delay')) &&
       (lower.includes('what happens') || lower.includes('late') || lower.includes('simulate') || lower.includes('impact'))
@@ -81,7 +138,7 @@ export class AIAssistantEngine {
       };
     }
 
-    // 2. Query: "How much cash do I need over the next 30 days?"
+    // 3. Query: "How much cash do I need over the next 30 days?"
     if (lower.includes('how much cash') || lower.includes('cash do i need') || lower.includes('next 30 days') || lower.includes('30 day cash')) {
       const outflows30 = summary.totalExpectedOutflows;
       const inflows30 = summary.totalExpectedInflows;
@@ -120,7 +177,7 @@ Your opening cash of ${formatINR(startingCash)} is sufficient only if scheduled 
       };
     }
 
-    // 3. Query: "Which payments are most at risk?"
+    // 4. Query: "Which payments are most at risk?"
     if (lower.includes('most at risk') || lower.includes('which payments') || lower.includes('risky obligations') || lower.includes('at risk')) {
       const highRisk = obligations.filter((o) => o.riskLevel === 'HIGH' || o.riskLevel === 'MEDIUM');
       const responseText = `### Highest Exposure Obligations & Bottlenecks
@@ -149,7 +206,7 @@ Your opening cash of ${formatINR(startingCash)} is sufficient only if scheduled 
       };
     }
 
-    // 4. Query: "Why is my liquidity risk high?" / "Explain risk"
+    // 5. Query: "Why is my liquidity risk high?" / "Explain risk"
     if (lower.includes('why is my liquidity') || lower.includes('why is risk') || lower.includes('explain risk') || lower.includes('why')) {
       const responseText = `### Liquidity Risk & Dependency Diagnostics
 
@@ -174,7 +231,7 @@ Your opening cash of ${formatINR(startingCash)} is sufficient only if scheduled 
       };
     }
 
-    // 5. Query: "Which customer payment is most important?" / "What obligations depend on Customer A?"
+    // 6. Query: "Which customer payment is most important?" / "What obligations depend on Customer A?"
     if (
       lower.includes('most important customer') ||
       lower.includes('depend on customer a') ||
