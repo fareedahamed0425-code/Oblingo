@@ -225,13 +225,18 @@ I am strictly specialized in analyzing your financial obligations, cash flow dep
           ))}
 
           {isTyping && (
-            <div className="flex items-center space-x-2 text-slate-500 text-xs pl-11">
-              <div className="flex space-x-1">
-                <span className="w-2 h-2 rounded-full bg-indigo-600 animate-bounce" style={{ animationDelay: '0ms' }} />
-                <span className="w-2 h-2 rounded-full bg-indigo-600 animate-bounce" style={{ animationDelay: '150ms' }} />
-                <span className="w-2 h-2 rounded-full bg-indigo-600 animate-bounce" style={{ animationDelay: '300ms' }} />
+            <div className="flex items-start space-x-3">
+              <div className="w-8 h-8 rounded-xl bg-indigo-600 border border-indigo-700 flex items-center justify-center text-white shrink-0 mt-1 shadow-sm animate-pulse">
+                <BotMessageSquare className="w-4 h-4" />
               </div>
-              <span>Analyzing live financial dependency graph...</span>
+              <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-sm max-w-lg space-y-2">
+                <div className="flex items-center space-x-2 text-xs text-indigo-700 font-semibold mb-1">
+                  <span className="w-2 h-2 rounded-full bg-indigo-600 animate-ping" />
+                  <span>Synthesizing financial dependency telemetry...</span>
+                </div>
+                <div className="h-3 w-64 bg-slate-200 animate-pulse rounded-md" />
+                <div className="h-3 w-48 bg-slate-200 animate-pulse rounded-md" />
+              </div>
             </div>
           )}
 

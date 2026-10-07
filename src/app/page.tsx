@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Navbar, TabType } from '@/components/Navbar';
 import { DashboardView } from '@/components/DashboardView';
 import { ObligationsView } from '@/components/ObligationsView';
@@ -10,6 +10,15 @@ import { ScenarioSimulatorView } from '@/components/ScenarioSimulatorView';
 import { RiskCenterView } from '@/components/RiskCenterView';
 import { AIAssistantView } from '@/components/AIAssistantView';
 import { ObligationDetailDrawer } from '@/components/ObligationDetailDrawer';
+import {
+  DashboardSkeleton,
+  ObligationsSkeleton,
+  CashFlowSkeleton,
+  DependencyGraphSkeleton,
+  ScenarioSimulatorSkeleton,
+  RiskCenterSkeleton,
+  AIAssistantSkeleton,
+} from '@/components/Skeletons';
 import { SEEDED_OBLIGATIONS, BASE_STARTING_CASH, MINIMUM_LIQUIDITY_BUFFER, REFERENCE_DATE } from '@/data/seedData';
 import { FinancialEngine } from '@/engine/financialEngine';
 import { RiskEngine } from '@/engine/riskEngine';
@@ -21,6 +30,21 @@ export default function Home() {
   const [selectedObligationId, setSelectedObligationId] = useState<string | null>(null);
   const [graphFocusNodeId, setGraphFocusNodeId] = useState<string | null>(null);
   const [isHeroDemoActive, setIsHeroDemoActive] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  // Initial smooth skeleton loading simulation (350ms) for high-grade market polish
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 350);
+    return () => clearTimeout(timer);
+  }, [activeTab]);
+
+  const handleTabChange = (tab: TabType) => {
+    setIsLoading(true);
+    setActiveTab(tab);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   // Compute live dashboard data
   const cashSummary = FinancialEngine.calculateCashFlowTimeline(
@@ -72,104 +96,106 @@ export default function Home() {
   const handleOpenInGraph = (id: string) => {
     setSelectedObligationId(null);
     setGraphFocusNodeId(id);
-    setActiveTab('graph');
+    handleTabChange('graph');
   };
 
   const handleSimulateObligationDelay = (id: string) => {
     setSelectedObligationId(null);
     setIsHeroDemoActive(true);
-    setActiveTab('scenarios');
+    handleTabChange('scenarios');
   };
 
   const handleTriggerHeroDemo = () => {
     setIsHeroDemoActive(true);
-    setActiveTab('scenarios');
+    handleTabChange('scenarios');
   };
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col selection:bg-indigo-500 selection:text-white">
-      {/* Top Navigation with Menu Button */}
+      {/* Floating Island Navigation */}
       <Navbar
         activeTab={activeTab}
-        onSelectTab={(tab) => {
-          setActiveTab(tab);
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }}
+        onSelectTab={handleTabChange}
         onTriggerHeroDemo={handleTriggerHeroDemo}
         isHeroDemoActive={isHeroDemoActive && activeTab === 'scenarios'}
       />
 
-      {/* Main Workspace */}
+      {/* Main Workspace with Skeleton Loaders */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-6">
-        {activeTab === 'dashboard' && (
-          <DashboardView
-            dashboardData={dashboardData}
-            obligations={obligations}
-            onSelectObligation={handleSelectObligation}
-            onNavigateTab={(t) => {
-              setActiveTab(t);
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-            onRunHeroScenario={handleTriggerHeroDemo}
-          />
-        )}
+        {isLoading ? (
+          <>
+            {activeTab === 'dashboard' && <DashboardSkeleton />}
+            {activeTab === 'obligations' && <ObligationsSkeleton />}
+            {activeTab === 'cashflow' && <CashFlowSkeleton />}
+            {activeTab === 'graph' && <DependencyGraphSkeleton />}
+            {activeTab === 'scenarios' && <ScenarioSimulatorSkeleton />}
+            {activeTab === 'risks' && <RiskCenterSkeleton />}
+            {activeTab === 'assistant' && <AIAssistantSkeleton />}
+          </>
+        ) : (
+          <>
+            {activeTab === 'dashboard' && (
+              <DashboardView
+                dashboardData={dashboardData}
+                obligations={obligations}
+                onSelectObligation={handleSelectObligation}
+                onNavigateTab={handleTabChange}
+                onRunHeroScenario={handleTriggerHeroDemo}
+              />
+            )}
 
-        {activeTab === 'obligations' && (
-          <ObligationsView
-            obligations={obligations}
-            onSelectObligation={handleSelectObligation}
-            onOpenInGraph={handleOpenInGraph}
-            onSimulateObligationDelay={handleSimulateObligationDelay}
-          />
-        )}
+            {activeTab === 'obligations' && (
+              <ObligationsView
+                obligations={obligations}
+                onSelectObligation={handleSelectObligation}
+                onOpenInGraph={handleOpenInGraph}
+                onSimulateObligationDelay={handleSimulateObligationDelay}
+              />
+            )}
 
-        {activeTab === 'cashflow' && (
-          <CashFlowView
-            obligations={obligations}
-            onSelectObligation={handleSelectObligation}
-          />
-        )}
+            {activeTab === 'cashflow' && (
+              <CashFlowView
+                obligations={obligations}
+                onSelectObligation={handleSelectObligation}
+              />
+            )}
 
-        {activeTab === 'graph' && (
-          <DependencyGraphView
-            obligations={obligations}
-            selectedNodeId={graphFocusNodeId}
-            onSelectObligation={handleSelectObligation}
-            onSimulateDelay={handleSimulateObligationDelay}
-          />
-        )}
+            {activeTab === 'graph' && (
+              <DependencyGraphView
+                obligations={obligations}
+                selectedNodeId={graphFocusNodeId}
+                onSelectObligation={handleSelectObligation}
+                onSimulateDelay={handleSimulateObligationDelay}
+              />
+            )}
 
-        {activeTab === 'scenarios' && (
-          <ScenarioSimulatorView
-            obligations={obligations}
-            initialHeroDelay={isHeroDemoActive}
-            onSelectObligation={handleSelectObligation}
-            onNavigateTab={(t) => {
-              setActiveTab(t);
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-          />
-        )}
+            {activeTab === 'scenarios' && (
+              <ScenarioSimulatorView
+                obligations={obligations}
+                initialHeroDelay={isHeroDemoActive}
+                onSelectObligation={handleSelectObligation}
+                onNavigateTab={handleTabChange}
+              />
+            )}
 
-        {activeTab === 'risks' && (
-          <RiskCenterView
-            obligations={obligations}
-            onSelectObligation={handleSelectObligation}
-            onRunScenario={handleTriggerHeroDemo}
-            onOpenInGraph={handleOpenInGraph}
-          />
-        )}
+            {activeTab === 'risks' && (
+              <RiskCenterView
+                obligations={obligations}
+                onSelectObligation={handleSelectObligation}
+                onRunScenario={handleTriggerHeroDemo}
+                onOpenInGraph={handleOpenInGraph}
+              />
+            )}
 
-        {activeTab === 'assistant' && (
-          <AIAssistantView
-            obligations={obligations}
-            onSelectObligation={handleSelectObligation}
-            onNavigateTab={(t) => {
-              setActiveTab(t);
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-            onTriggerHeroScenario={handleTriggerHeroDemo}
-          />
+            {activeTab === 'assistant' && (
+              <AIAssistantView
+                obligations={obligations}
+                onSelectObligation={handleSelectObligation}
+                onNavigateTab={handleTabChange}
+                onTriggerHeroScenario={handleTriggerHeroDemo}
+              />
+            )}
+          </>
         )}
       </main>
 
